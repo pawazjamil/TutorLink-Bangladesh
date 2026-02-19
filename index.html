@@ -1,0 +1,444 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Smart Tutor Connect - Black & Gold Edition</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+      <div class="logo">
+        <i class="fas fa-graduation-cap"></i>
+        <span>SmartTutor</span>
+      </div>
+
+      <ul class="nav-links">
+        <li><a href="#home" class="active">Home</a></li>
+        <li><a href="#tutors">Find Tutors</a></li>
+        <li><a href="#add-tutor">Become a Tutor</a></li>
+        <li><a href="#about">About</a></li>
+      </ul>
+
+      <div class="auth-buttons" id="authButtons">
+        <button class="btn-gold" onclick="showModal('loginModal')">
+          Login
+        </button>
+        <button class="btn-outline-gold" onclick="showModal('registerModal')">
+          Register
+        </button>
+      </div>
+
+      <div class="mobile-menu">
+        <i class="fas fa-bars"></i>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+      <div class="hero-content">
+        <h1>Find Your <span class="gold-text">Perfect Tutor</span></h1>
+        <p>Connect with verified tutors. Learn anything, anytime, anywhere.</p>
+
+        <div class="search-container">
+          <div class="search-box">
+            <i class="fas fa-search search-icon"></i>
+            <input
+              type="text"
+              id="searchSubject"
+              placeholder="Search subject (e.g., Math, English, Physics)"
+            />
+            <input type="text" id="searchLocation" placeholder="Location" />
+            <button class="btn-gold" onclick="searchTutors()">
+              Find Tutors
+            </button>
+          </div>
+        </div>
+
+        <div class="quick-filters">
+          <button class="filter-chip" onclick="filterSubject('Math')">
+            Mathematics
+          </button>
+          <button class="filter-chip" onclick="filterSubject('Physics')">
+            Physics
+          </button>
+          <button class="filter-chip" onclick="filterSubject('Chemistry')">
+            Chemistry
+          </button>
+          <button class="filter-chip" onclick="filterSubject('English')">
+            English
+          </button>
+          <button class="filter-chip" onclick="filterSubject('Programming')">
+            Programming
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tutors Section -->
+    <section id="tutors" class="tutors-section">
+      <div class="section-header">
+        <h2>Available <span class="gold-text">Tutors</span></h2>
+        <p>Browse through our verified tutors</p>
+      </div>
+
+      <div class="filters-bar">
+        <select id="sortBy" class="gold-select" onchange="sortTutors()">
+          <option value="">Sort By</option>
+          <option value="rating-high">Highest Rated</option>
+          <option value="rating-low">Lowest Rated</option>
+          <option value="price-low">Price: Low to High</option>
+          <option value="price-high">Price: High to Low</option>
+        </select>
+
+        <select
+          id="filterSubject"
+          class="gold-select"
+          onchange="filterBySubject()"
+        >
+          <option value="">All Subjects</option>
+          <option value="Math">Mathematics</option>
+          <option value="Physics">Physics</option>
+          <option value="Chemistry">Chemistry</option>
+          <option value="English">English</option>
+          <option value="Programming">Programming</option>
+          <option value="Biology">Biology</option>
+        </select>
+      </div>
+
+      <div id="tutorsList" class="tutors-grid">
+        <!-- Tutors will be loaded here -->
+      </div>
+    </section>
+
+    <!-- Add Tutor Section -->
+    <section id="add-tutor" class="add-tutor-section">
+      <div class="section-header">
+        <h2>Become a <span class="gold-text">Tutor</span></h2>
+        <p>Join our community of expert tutors</p>
+      </div>
+
+      <div class="form-container">
+        <form
+          id="tutorForm"
+          onsubmit="
+            event.preventDefault();
+            addTutor();
+          "
+        >
+          <div class="form-row">
+            <div class="form-group">
+              <label><i class="fas fa-user"></i> Full Name</label>
+              <input
+                type="text"
+                id="tutorName"
+                placeholder="Enter your full name"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label><i class="fas fa-envelope"></i> Email</label>
+              <input
+                type="email"
+                id="tutorEmail"
+                placeholder="your@email.com"
+                required
+              />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label><i class="fas fa-phone"></i> Phone</label>
+              <input
+                type="tel"
+                id="tutorPhone"
+                placeholder="017xxxxxxxx"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label><i class="fas fa-book"></i> Subject</label>
+              <select id="tutorSubject" required>
+                <option value="">Select Subject</option>
+                <option value="Math">Mathematics</option>
+                <option value="Physics">Physics</option>
+                <option value="Chemistry">Chemistry</option>
+                <option value="English">English</option>
+                <option value="Programming">Programming</option>
+                <option value="Biology">Biology</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label><i class="fas fa-taka"></i> Hourly Rate (৳)</label>
+              <input
+                type="number"
+                id="tutorPrice"
+                placeholder="e.g., 500"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label><i class="fas fa-map-marker-alt"></i> Location</label>
+              <input
+                type="text"
+                id="tutorLocation"
+                placeholder="e.g., Dhanmondi"
+                required
+              />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label><i class="fas fa-graduation-cap"></i> Qualification</label>
+              <input
+                type="text"
+                id="tutorQualification"
+                placeholder="e.g., B.Sc in Mathematics"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label><i class="fas fa-briefcase"></i> Experience (years)</label>
+              <input
+                type="number"
+                id="tutorExperience"
+                placeholder="e.g., 5"
+                required
+              />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label><i class="fas fa-comment"></i> About Yourself</label>
+            <textarea
+              id="tutorBio"
+              rows="4"
+              placeholder="Tell students about your teaching style, experience, and approach..."
+              required
+            ></textarea>
+          </div>
+
+          <button type="submit" class="btn-gold btn-large">
+            <i class="fas fa-plus-circle"></i> Register as Tutor
+          </button>
+        </form>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about-section">
+      <div class="section-header">
+        <h2>About <span class="gold-text">Us</span></h2>
+      </div>
+
+      <div class="about-content">
+        <div class="about-text">
+          <h3>Smart Tutor Connect</h3>
+          <p>
+            We are dedicated to connecting students with qualified tutors across
+            Bangladesh. Our platform ensures quality education through verified
+            tutors, transparent ratings, and secure communication.
+          </p>
+
+          <div class="stats">
+            <div class="stat-item">
+              <i class="fas fa-chalkboard-teacher gold-text"></i>
+              <h4>500+</h4>
+              <p>Verified Tutors</p>
+            </div>
+            <div class="stat-item">
+              <i class="fas fa-star gold-text"></i>
+              <h4>4.8</h4>
+              <p>Average Rating</p>
+            </div>
+            <div class="stat-item">
+              <i class="fas fa-users gold-text"></i>
+              <h4>10,000+</h4>
+              <p>Happy Students</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <div class="footer-content">
+        <div class="footer-section">
+          <h4>SmartTutor</h4>
+          <p>Your gateway to quality education</p>
+        </div>
+        <div class="footer-section">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#tutors">Find Tutors</a></li>
+            <li><a href="#add-tutor">Become a Tutor</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h4>Contact</h4>
+          <p><i class="fas fa-envelope"></i> support@smarttutor.com</p>
+          <p><i class="fas fa-phone"></i> +880 1XXX-XXXXXX</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 Smart Tutor Connect. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+      <div class="modal-content">
+        <span class="close" onclick="closeModal('loginModal')">&times;</span>
+        <h2 class="gold-text">Login</h2>
+        <form
+          id="loginForm"
+          onsubmit="
+            event.preventDefault();
+            login();
+          "
+        >
+          <div class="form-group">
+            <label><i class="fas fa-envelope"></i> Email</label>
+            <input
+              type="email"
+              id="loginEmail"
+              placeholder="Enter your email"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label><i class="fas fa-lock"></i> Password</label>
+            <input
+              type="password"
+              id="loginPassword"
+              placeholder="Enter your password"
+              required
+            />
+          </div>
+          <button type="submit" class="btn-gold btn-full">Login</button>
+          <p class="form-footer">
+            Don't have an account?
+            <a href="#" onclick="switchModal('registerModal')">Register</a>
+          </p>
+        </form>
+      </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div id="registerModal" class="modal">
+      <div class="modal-content">
+        <span class="close" onclick="closeModal('registerModal')">&times;</span>
+        <h2 class="gold-text">Register</h2>
+        <form
+          id="registerForm"
+          onsubmit="
+            event.preventDefault();
+            register();
+          "
+        >
+          <div class="form-group">
+            <label><i class="fas fa-user"></i> Full Name</label>
+            <input
+              type="text"
+              id="regName"
+              placeholder="Enter your full name"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label><i class="fas fa-envelope"></i> Email</label>
+            <input
+              type="email"
+              id="regEmail"
+              placeholder="Enter your email"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label><i class="fas fa-lock"></i> Password</label>
+            <input
+              type="password"
+              id="regPassword"
+              placeholder="Choose a password"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label><i class="fas fa-user-tag"></i> Register as</label>
+            <select id="regType" required>
+              <option value="student">Student</option>
+              <option value="tutor">Tutor</option>
+            </select>
+          </div>
+          <button type="submit" class="btn-gold btn-full">Register</button>
+          <p class="form-footer">
+            Already have an account?
+            <a href="#" onclick="switchModal('loginModal')">Login</a>
+          </p>
+        </form>
+      </div>
+    </div>
+
+    <!-- Tutor Details Modal -->
+    <div id="tutorModal" class="modal">
+      <div class="modal-content modal-large">
+        <span class="close" onclick="closeModal('tutorModal')">&times;</span>
+        <div id="tutorDetails" class="tutor-details">
+          <!-- Tutor details loaded dynamically -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Rating Modal -->
+    <div id="ratingModal" class="modal">
+      <div class="modal-content">
+        <span class="close" onclick="closeModal('ratingModal')">&times;</span>
+        <h2 class="gold-text">Rate This Tutor</h2>
+        <div id="ratingTutorInfo" class="rating-tutor-info"></div>
+
+        <div class="star-rating">
+          <span onclick="setRating(1)">★</span>
+          <span onclick="setRating(2)">★</span>
+          <span onclick="setRating(3)">★</span>
+          <span onclick="setRating(4)">★</span>
+          <span onclick="setRating(5)">★</span>
+        </div>
+
+        <p id="ratingValue" class="rating-value">Select a rating</p>
+
+        <textarea
+          id="ratingComment"
+          placeholder="Write your review (optional)..."
+          rows="3"
+        ></textarea>
+
+        <button onclick="submitRating()" class="btn-gold btn-full">
+          Submit Rating
+        </button>
+      </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast"></div>
+
+    <script src="js/tutors.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/main.js"></script>
+  </body>
+</html>
