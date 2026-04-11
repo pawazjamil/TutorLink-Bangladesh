@@ -1,24 +1,8 @@
-// ===== USER DATA =====
 let users = JSON.parse(localStorage.getItem('users')) || [
-    {
-        id: 1,
-        name: "Admin User",
-        email: "admin@tutor.com",
-        password: "admin123",
-        type: "admin"
-    },
-    {
-        id: 2,
-        name: "Test Student",
-        email: "student@test.com",
-        password: "student123",
-        type: "student"
-    }
+    { id: 1, name: "Admin User", email: "admin@tutor.com", password: "admin123", type: "admin", joined: "2026", phone: "", location: "", education: "", occupation: "" },
+    { id: 2, name: "Test Student", email: "student@test.com", password: "student123", type: "student", joined: "2026", phone: "01712345678", location: "Dhanmondi", education: "B.Sc in CSE", occupation: "Student" }
 ];
 
-let currentUser = JSON.parse(localStorage.getItem('currentUser')) || null;
-
-// ===== MODAL FUNCTIONS =====
 function showModal(modalId) {
     closeAllModals();
     document.getElementById(modalId).style.display = 'block';
@@ -26,13 +10,13 @@ function showModal(modalId) {
 }
 
 function closeModal(modalId) {
-    document.getElementById(modalId).style.display = 'none';
+    const modal = document.getElementById(modalId);
+    if (modal) modal.style.display = 'none';
     document.body.style.overflow = 'auto';
 }
 
 function closeAllModals() {
-    const modals = document.querySelectorAll('.modal');
-    modals.forEach(modal => modal.style.display = 'none');
+    document.querySelectorAll('.modal').forEach(m => m.style.display = 'none');
     document.body.style.overflow = 'auto';
 }
 
@@ -41,120 +25,65 @@ function switchModal(modalId) {
     showModal(modalId);
 }
 
-// ===== LOGIN FUNCTION =====
 function login() {
     const email = document.getElementById('loginEmail').value;
     const password = document.getElementById('loginPassword').value;
-    
-    if (!email || !password) {
-        showToast('Please fill in all fields', 'error');
-        return;
-    }
-    
+    if (!email || !password) { showToast('Please fill all fields', 'error'); return; }
     const user = users.find(u => u.email === email && u.password === password);
-    
     if (user) {
         currentUser = user;
         localStorage.setItem('currentUser', JSON.stringify(user));
         showToast(`Welcome back, ${user.name}!`, 'success');
         closeModal('loginModal');
         updateAuthUI();
-        
-        // Reset form
         document.getElementById('loginForm').reset();
+        if (typeof loadProfileData === 'function') loadProfileData();
+        setTimeout(() => { window.location.href = 'profile.html'; }, 1000);
     } else {
         showToast('Invalid email or password', 'error');
     }
 }
 
-// ===== REGISTER FUNCTION =====
 function register() {
     const name = document.getElementById('regName').value;
     const email = document.getElementById('regEmail').value;
     const password = document.getElementById('regPassword').value;
     const type = document.getElementById('regType').value;
-    
-    if (!name || !email || !password || !type) {
-        showToast('Please fill in all fields', 'error');
-        return;
-    }
-    
-    if (password.length < 6) {
-        showToast('Password must be at least 6 characters', 'error');
-        return;
-    }
-    
-    if (users.find(u => u.email === email)) {
-        showToast('Email already exists', 'error');
-        return;
-    }
-    
-    const newUser = {
-        id: users.length + 1,
-        name: name,
-        email: email,
-        password: password,
-        type: type
-    };
-    
+    if (!name || !email || !password || !type) { showToast('Please fill all fields', 'error'); return; }
+    if (password.length < 6) { showToast('Password must be at least 6 characters', 'error'); return; }
+    if (users.find(u => u.email === email)) { showToast('Email already exists', 'error'); return; }
+    const newUser = { id: users.length + 1, name, email, password, type, joined: new Date().getFullYear().toString(), phone: "", location: "", education: "", occupation: "" };
     users.push(newUser);
     localStorage.setItem('users', JSON.stringify(users));
-    
     showToast('Registration successful! Please login.', 'success');
     closeModal('registerModal');
     showModal('loginModal');
-    
-    // Reset form
     document.getElementById('registerForm').reset();
 }
 
-// ===== LOGOUT FUNCTION =====
 function logout() {
     currentUser = null;
     localStorage.removeItem('currentUser');
     showToast('Logged out successfully', 'success');
     updateAuthUI();
     closeAllModals();
+    window.location.href = 'index.html';
 }
 
-// ===== UPDATE AUTH UI =====
 function updateAuthUI() {
     const authButtons = document.getElementById('authButtons');
-    
+    if (!authButtons) return;
     if (currentUser) {
-        authButtons.innerHTML = `
-            <span class="user-welcome">
-                <i class="fas fa-user-circle" style="color: var(--gold);"></i>
-                ${currentUser.name}
-            </span>
-            <button class="btn-outline-gold" onclick="logout()">Logout</button>
-        `;
+        authButtons.innerHTML = `<span class="user-welcome" style="display: flex; align-items: center; gap: 0.5rem; color: var(--gold);"><i class="fas fa-user-circle"></i> ${currentUser.name}</span><button class="btn-luxury-outline" onclick="logout()">Logout</button>`;
     } else {
-        authButtons.innerHTML = `
-            <button class="btn-gold" onclick="showModal('loginModal')">Login</button>
-            <button class="btn-outline-gold" onclick="showModal('registerModal')">Register</button>
-        `;
+        authButtons.innerHTML = `<button class="btn-luxury" onclick="showModal('loginModal')">Login</button><button class="btn-luxury-outline" onclick="showModal('registerModal')">Register</button>`;
     }
 }
 
-// ===== CHECK IF USER IS LOGGED IN =====
-function requireAuth() {
-    if (!currentUser) {
-        showToast('Please login to continue', 'error');
-        showModal('loginModal');
-        return false;
-    }
-    return true;
-}
-
-// ===== CLOSE MODALS WHEN CLICKING OUTSIDE =====
 window.onclick = function(event) {
-    if (event.target.classList.contains('modal')) {
-        closeAllModals();
-    }
+    if (event.target.classList.contains('modal')) closeAllModals();
 }
 
-// Initialize on page load
 document.addEventListener('DOMContentLoaded', function() {
     updateAuthUI();
 });
