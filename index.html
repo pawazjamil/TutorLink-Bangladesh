@@ -1,444 +1,321 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Smart Tutor Connect - Black & Gold Edition</title>
-    <link rel="stylesheet" href="css/style.css" />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
-    />
-  </head>
-  <body>
-    <!-- Navigation Bar -->
-    <nav class="navbar">
-      <div class="logo">
-        <i class="fas fa-graduation-cap"></i>
-        <span>SmartTutor</span>
-      </div>
-
-      <ul class="nav-links">
-        <li><a href="#home" class="active">Home</a></li>
-        <li><a href="#tutors">Find Tutors</a></li>
-        <li><a href="#add-tutor">Become a Tutor</a></li>
-        <li><a href="#about">About</a></li>
-      </ul>
-
-      <div class="auth-buttons" id="authButtons">
-        <button class="btn-gold" onclick="showModal('loginModal')">
-          Login
-        </button>
-        <button class="btn-outline-gold" onclick="showModal('registerModal')">
-          Register
-        </button>
-      </div>
-
-      <div class="mobile-menu">
-        <i class="fas fa-bars"></i>
-      </div>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TutorLink Bangladesh | Complete Tutoring Platform</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav-luxury">
+        <div class="nav-container">
+            <div class="logo-luxury">
+                <i class="fas fa-feather-alt"></i>
+                <span>TutorLink <span class="gold">Bangladesh</span></span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#" onclick="showHome()" class="active">Home</a></li>
+                <li><a href="#" onclick="showTutors()">Find Tutors</a></li>
+                <li><a href="#" onclick="showMessages()">Messages</a></li>
+                <li><a href="#" onclick="showProfile()">Profile</a></li>
+                <li><a href="#" onclick="showBecomeTutor()">Become a Tutor</a></li>
+            </ul>
+            <div class="nav-auth" id="authButtons">
+                <button class="btn-login" onclick="showModal('loginModal')">Sign In</button>
+                <button class="btn-register" onclick="showModal('registerModal')">Join Now</button>
+            </div>
+        </div>
     </nav>
 
     <!-- Hero Section -->
-    <section id="home" class="hero">
-      <div class="hero-content">
-        <h1>Find Your <span class="gold-text">Perfect Tutor</span></h1>
-        <p>Connect with verified tutors. Learn anything, anytime, anywhere.</p>
-
-        <div class="search-container">
-          <div class="search-box">
-            <i class="fas fa-search search-icon"></i>
-            <input
-              type="text"
-              id="searchSubject"
-              placeholder="Search subject (e.g., Math, English, Physics)"
-            />
-            <input type="text" id="searchLocation" placeholder="Location" />
-            <button class="btn-gold" onclick="searchTutors()">
-              Find Tutors
-            </button>
-          </div>
+    <section id="homeSection" class="hero-luxury">
+        <div class="hero-content">
+            <div class="hero-tag">~ Elite Tutoring Network ~</div>
+            <h1>Find Your <span class="gold">Perfect Tutor</span><br>in Bangladesh</h1>
+            <p>Connect with Bangladesh's most distinguished educators • Premium monthly packages • Bespoke schedules</p>
+            <div class="hero-search">
+                <div class="search-wrapper">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchSubject" placeholder="Subject (Math, English, Physics...)">
+                    <input type="text" id="searchLocation" placeholder="Location (Dhanmondi, Gulshan...)">
+                    <button class="btn-search" onclick="searchTutors()">Discover</button>
+                </div>
+            </div>
+            <div class="hero-categories">
+                <span onclick="filterSubject('Math')">Mathematics</span>
+                <span onclick="filterSubject('Physics')">Physics</span>
+                <span onclick="filterSubject('Chemistry')">Chemistry</span>
+                <span onclick="filterSubject('English')">English</span>
+                <span onclick="filterSubject('Programming')">Programming</span>
+                <span onclick="filterSubject('Biology')">Biology</span>
+                <span onclick="filterSubject('Economics')">Economics</span>
+                <span onclick="filterSubject('Accounting')">Accounting</span>
+            </div>
         </div>
-
-        <div class="quick-filters">
-          <button class="filter-chip" onclick="filterSubject('Math')">
-            Mathematics
-          </button>
-          <button class="filter-chip" onclick="filterSubject('Physics')">
-            Physics
-          </button>
-          <button class="filter-chip" onclick="filterSubject('Chemistry')">
-            Chemistry
-          </button>
-          <button class="filter-chip" onclick="filterSubject('English')">
-            English
-          </button>
-          <button class="filter-chip" onclick="filterSubject('Programming')">
-            Programming
-          </button>
+        <div class="hero-stats">
+            <div class="stat-item"><span class="stat-number" id="totalTutors">0</span><span class="stat-label">Expert Tutors</span></div>
+            <div class="stat-item"><span class="stat-number" id="totalStudents">0</span><span class="stat-label">Happy Students</span></div>
+            <div class="stat-item"><span class="stat-number">4.9</span><span class="stat-label">Avg Rating</span></div>
         </div>
-      </div>
     </section>
 
     <!-- Tutors Section -->
-    <section id="tutors" class="tutors-section">
-      <div class="section-header">
-        <h2>Available <span class="gold-text">Tutors</span></h2>
-        <p>Browse through our verified tutors</p>
-      </div>
-
-      <div class="filters-bar">
-        <select id="sortBy" class="gold-select" onchange="sortTutors()">
-          <option value="">Sort By</option>
-          <option value="rating-high">Highest Rated</option>
-          <option value="rating-low">Lowest Rated</option>
-          <option value="price-low">Price: Low to High</option>
-          <option value="price-high">Price: High to Low</option>
-        </select>
-
-        <select
-          id="filterSubject"
-          class="gold-select"
-          onchange="filterBySubject()"
-        >
-          <option value="">All Subjects</option>
-          <option value="Math">Mathematics</option>
-          <option value="Physics">Physics</option>
-          <option value="Chemistry">Chemistry</option>
-          <option value="English">English</option>
-          <option value="Programming">Programming</option>
-          <option value="Biology">Biology</option>
-        </select>
-      </div>
-
-      <div id="tutorsList" class="tutors-grid">
-        <!-- Tutors will be loaded here -->
-      </div>
-    </section>
-
-    <!-- Add Tutor Section -->
-    <section id="add-tutor" class="add-tutor-section">
-      <div class="section-header">
-        <h2>Become a <span class="gold-text">Tutor</span></h2>
-        <p>Join our community of expert tutors</p>
-      </div>
-
-      <div class="form-container">
-        <form
-          id="tutorForm"
-          onsubmit="
-            event.preventDefault();
-            addTutor();
-          "
-        >
-          <div class="form-row">
-            <div class="form-group">
-              <label><i class="fas fa-user"></i> Full Name</label>
-              <input
-                type="text"
-                id="tutorName"
-                placeholder="Enter your full name"
-                required
-              />
-            </div>
-
-            <div class="form-group">
-              <label><i class="fas fa-envelope"></i> Email</label>
-              <input
-                type="email"
-                id="tutorEmail"
-                placeholder="your@email.com"
-                required
-              />
-            </div>
-          </div>
-
-          <div class="form-row">
-            <div class="form-group">
-              <label><i class="fas fa-phone"></i> Phone</label>
-              <input
-                type="tel"
-                id="tutorPhone"
-                placeholder="017xxxxxxxx"
-                required
-              />
-            </div>
-
-            <div class="form-group">
-              <label><i class="fas fa-book"></i> Subject</label>
-              <select id="tutorSubject" required>
-                <option value="">Select Subject</option>
+    <section id="tutorsSection" class="tutors-luxury" style="display: none">
+        <div class="section-heading">
+            <div class="heading-icon">✦</div>
+            <h2>Our Esteemed Educators</h2>
+            <p>Hand-picked experts ready to guide your journey</p>
+        </div>
+        <div class="tutor-filters">
+            <select id="sortBy" onchange="sortTutors()">
+                <option value="">Sort by</option>
+                <option value="rating-high">Highest Rated</option>
+                <option value="price-low">Price: Low to High</option>
+                <option value="price-high">Price: High to Low</option>
+            </select>
+            <select id="filterSubject" onchange="filterBySubject()">
+                <option value="">All Subjects</option>
                 <option value="Math">Mathematics</option>
                 <option value="Physics">Physics</option>
                 <option value="Chemistry">Chemistry</option>
                 <option value="English">English</option>
                 <option value="Programming">Programming</option>
                 <option value="Biology">Biology</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="form-row">
-            <div class="form-group">
-              <label><i class="fas fa-taka"></i> Hourly Rate (৳)</label>
-              <input
-                type="number"
-                id="tutorPrice"
-                placeholder="e.g., 500"
-                required
-              />
-            </div>
-
-            <div class="form-group">
-              <label><i class="fas fa-map-marker-alt"></i> Location</label>
-              <input
-                type="text"
-                id="tutorLocation"
-                placeholder="e.g., Dhanmondi"
-                required
-              />
-            </div>
-          </div>
-
-          <div class="form-row">
-            <div class="form-group">
-              <label><i class="fas fa-graduation-cap"></i> Qualification</label>
-              <input
-                type="text"
-                id="tutorQualification"
-                placeholder="e.g., B.Sc in Mathematics"
-                required
-              />
-            </div>
-
-            <div class="form-group">
-              <label><i class="fas fa-briefcase"></i> Experience (years)</label>
-              <input
-                type="number"
-                id="tutorExperience"
-                placeholder="e.g., 5"
-                required
-              />
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label><i class="fas fa-comment"></i> About Yourself</label>
-            <textarea
-              id="tutorBio"
-              rows="4"
-              placeholder="Tell students about your teaching style, experience, and approach..."
-              required
-            ></textarea>
-          </div>
-
-          <button type="submit" class="btn-gold btn-large">
-            <i class="fas fa-plus-circle"></i> Register as Tutor
-          </button>
-        </form>
-      </div>
+                <option value="Economics">Economics</option>
+                <option value="Accounting">Accounting</option>
+            </select>
+        </div>
+        <div id="tutorsList" class="tutors-grid"></div>
     </section>
 
-    <!-- About Section -->
-    <section id="about" class="about-section">
-      <div class="section-header">
-        <h2>About <span class="gold-text">Us</span></h2>
-      </div>
-
-      <div class="about-content">
-        <div class="about-text">
-          <h3>Smart Tutor Connect</h3>
-          <p>
-            We are dedicated to connecting students with qualified tutors across
-            Bangladesh. Our platform ensures quality education through verified
-            tutors, transparent ratings, and secure communication.
-          </p>
-
-          <div class="stats">
-            <div class="stat-item">
-              <i class="fas fa-chalkboard-teacher gold-text"></i>
-              <h4>500+</h4>
-              <p>Verified Tutors</p>
-            </div>
-            <div class="stat-item">
-              <i class="fas fa-star gold-text"></i>
-              <h4>4.8</h4>
-              <p>Average Rating</p>
-            </div>
-            <div class="stat-item">
-              <i class="fas fa-users gold-text"></i>
-              <h4>10,000+</h4>
-              <p>Happy Students</p>
-            </div>
-          </div>
+    <!-- Profile Section -->
+    <section id="profileSection" class="profile-luxury" style="display: none">
+        <div class="profile-container">
+            <h2>My Profile</h2>
+            <div id="profileContent"></div>
         </div>
-      </div>
+    </section>
+
+    <!-- Messages Section -->
+    <section id="messagesSection" class="messages-luxury" style="display: none">
+        <div class="messages-container">
+            <h2>Messages</h2>
+            <div id="messagesContent"></div>
+        </div>
+    </section>
+
+    <!-- Become a Tutor Section -->
+    <section id="becomeTutorSection" class="become-tutor-luxury" style="display: none">
+        <div class="become-tutor-container">
+            <div class="section-heading">
+                <div class="heading-icon">✨</div>
+                <h2>Become a <span class="gold">Tutor</span></h2>
+                <p>Share your knowledge and earn. Join our elite community of educators.</p>
+            </div>
+            <div class="tutor-application-form">
+                <h3>Apply to Become a Tutor</h3>
+                <form id="tutorApplicationForm" onsubmit="event.preventDefault(); applyAsTutor()">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label><i class="fas fa-user"></i> Full Name</label>
+                            <input type="text" id="applyName" required>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-envelope"></i> Email</label>
+                            <input type="email" id="applyEmail" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label><i class="fas fa-lock"></i> Password</label>
+                            <input type="password" id="applyPassword" required>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-phone"></i> Phone Number</label>
+                            <input type="tel" id="applyPhone" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label><i class="fas fa-book"></i> Subject You Teach</label>
+                            <select id="applySubject" required>
+                                <option value="">Select Subject</option>
+                                <option value="Math">Mathematics</option>
+                                <option value="Physics">Physics</option>
+                                <option value="Chemistry">Chemistry</option>
+                                <option value="English">English</option>
+                                <option value="Programming">Programming</option>
+                                <option value="Biology">Biology</option>
+                                <option value="Economics">Economics</option>
+                                <option value="Accounting">Accounting</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-taka"></i> Monthly Rate (৳)</label>
+                            <input type="number" id="applyRate" placeholder="e.g., 3500" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label><i class="fas fa-map-marker-alt"></i> Location</label>
+                            <input type="text" id="applyLocation" placeholder="e.g., Dhanmondi" required>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-graduation-cap"></i> Qualification</label>
+                            <input type="text" id="applyQualification" placeholder="e.g., B.Sc in Mathematics" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-comment"></i> About Yourself</label>
+                        <textarea id="applyBio" rows="4" placeholder="Tell students about your teaching experience..." required></textarea>
+                    </div>
+                    <button type="submit" class="btn-search">Submit Application</button>
+                </form>
+            </div>
+        </div>
     </section>
 
     <!-- Footer -->
-    <footer>
-      <div class="footer-content">
-        <div class="footer-section">
-          <h4>SmartTutor</h4>
-          <p>Your gateway to quality education</p>
+    <footer class="footer-luxury">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <i class="fas fa-feather-alt"></i><span>TutorLink Bangladesh</span>
+                <p>Where excellence meets education</p>
+            </div>
+            <div class="footer-links">
+                <a href="#" onclick="showHome()">Home</a>
+                <a href="#" onclick="showTutors()">Tutors</a>
+                <a href="#" onclick="showMessages()">Messages</a>
+                <a href="#" onclick="showProfile()">Profile</a>
+                <a href="#" onclick="showBecomeTutor()">Become a Tutor</a>
+            </div>
+            <div class="footer-contact">
+                <p><i class="fas fa-envelope"></i> hello@tutorlink.com</p>
+                <p><i class="fas fa-phone"></i> +880 1XXX-XXXXXX</p>
+            </div>
         </div>
-        <div class="footer-section">
-          <h4>Quick Links</h4>
-          <ul>
-            <li><a href="#home">Home</a></li>
-            <li><a href="#tutors">Find Tutors</a></li>
-            <li><a href="#add-tutor">Become a Tutor</a></li>
-          </ul>
+        <div class="footer-copyright">
+            <p>© 2026 TutorLink Bangladesh — Where brilliance meets guidance</p>
         </div>
-        <div class="footer-section">
-          <h4>Contact</h4>
-          <p><i class="fas fa-envelope"></i> support@smarttutor.com</p>
-          <p><i class="fas fa-phone"></i> +880 1XXX-XXXXXX</p>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        <p>&copy; 2026 Smart Tutor Connect. All rights reserved.</p>
-      </div>
     </footer>
 
     <!-- Login Modal -->
     <div id="loginModal" class="modal">
-      <div class="modal-content">
-        <span class="close" onclick="closeModal('loginModal')">&times;</span>
-        <h2 class="gold-text">Login</h2>
-        <form
-          id="loginForm"
-          onsubmit="
-            event.preventDefault();
-            login();
-          "
-        >
-          <div class="form-group">
-            <label><i class="fas fa-envelope"></i> Email</label>
-            <input
-              type="email"
-              id="loginEmail"
-              placeholder="Enter your email"
-              required
-            />
-          </div>
-          <div class="form-group">
-            <label><i class="fas fa-lock"></i> Password</label>
-            <input
-              type="password"
-              id="loginPassword"
-              placeholder="Enter your password"
-              required
-            />
-          </div>
-          <button type="submit" class="btn-gold btn-full">Login</button>
-          <p class="form-footer">
-            Don't have an account?
-            <a href="#" onclick="switchModal('registerModal')">Register</a>
-          </p>
-        </form>
-      </div>
+        <div class="modal-container">
+            <span class="modal-close" onclick="closeModal('loginModal')">&times;</span>
+            <div class="modal-icon">🔑</div>
+            <h2>Welcome Back</h2>
+            <form onsubmit="event.preventDefault(); login()">
+                <input type="email" id="loginEmail" placeholder="Email address" required>
+                <input type="password" id="loginPassword" placeholder="Password" required>
+                <button type="submit" class="modal-btn">Sign In</button>
+                <p class="modal-footer">New here? <a href="#" onclick="switchModal('registerModal')">Create account</a></p>
+            </form>
+        </div>
     </div>
 
     <!-- Register Modal -->
     <div id="registerModal" class="modal">
-      <div class="modal-content">
-        <span class="close" onclick="closeModal('registerModal')">&times;</span>
-        <h2 class="gold-text">Register</h2>
-        <form
-          id="registerForm"
-          onsubmit="
-            event.preventDefault();
-            register();
-          "
-        >
-          <div class="form-group">
-            <label><i class="fas fa-user"></i> Full Name</label>
-            <input
-              type="text"
-              id="regName"
-              placeholder="Enter your full name"
-              required
-            />
-          </div>
-          <div class="form-group">
-            <label><i class="fas fa-envelope"></i> Email</label>
-            <input
-              type="email"
-              id="regEmail"
-              placeholder="Enter your email"
-              required
-            />
-          </div>
-          <div class="form-group">
-            <label><i class="fas fa-lock"></i> Password</label>
-            <input
-              type="password"
-              id="regPassword"
-              placeholder="Choose a password"
-              required
-            />
-          </div>
-          <div class="form-group">
-            <label><i class="fas fa-user-tag"></i> Register as</label>
-            <select id="regType" required>
-              <option value="student">Student</option>
-              <option value="tutor">Tutor</option>
-            </select>
-          </div>
-          <button type="submit" class="btn-gold btn-full">Register</button>
-          <p class="form-footer">
-            Already have an account?
-            <a href="#" onclick="switchModal('loginModal')">Login</a>
-          </p>
-        </form>
-      </div>
+        <div class="modal-container">
+            <span class="modal-close" onclick="closeModal('registerModal')">&times;</span>
+            <div class="modal-icon">✨</div>
+            <h2>Join the Community</h2>
+            <form onsubmit="event.preventDefault(); register()">
+                <input type="text" id="regName" placeholder="Full name" required>
+                <input type="email" id="regEmail" placeholder="Email address" required>
+                <input type="password" id="regPassword" placeholder="Password" required>
+                <select id="regType">
+                    <option value="student">I'm a Student</option>
+                    <option value="tutor">I'm a Tutor</option>
+                </select>
+                <button type="submit" class="modal-btn">Join Now</button>
+                <p class="modal-footer">Already a member? <a href="#" onclick="switchModal('loginModal')">Sign In</a></p>
+            </form>
+        </div>
     </div>
 
     <!-- Tutor Details Modal -->
     <div id="tutorModal" class="modal">
-      <div class="modal-content modal-large">
-        <span class="close" onclick="closeModal('tutorModal')">&times;</span>
-        <div id="tutorDetails" class="tutor-details">
-          <!-- Tutor details loaded dynamically -->
+        <div class="modal-container modal-large">
+            <span class="modal-close" onclick="closeModal('tutorModal')">&times;</span>
+            <div id="tutorDetails"></div>
         </div>
-      </div>
+    </div>
+
+   <!-- Edit Profile Modal -->
+<div id="editProfileModal" class="modal">
+    <div class="modal-container">
+        <span class="modal-close" onclick="closeModal('editProfileModal')">&times;</span>
+        <div class="modal-icon">✏️</div>
+        <h2>Edit Profile</h2>
+        <form id="editProfileForm" onsubmit="event.preventDefault(); saveProfileChanges()">
+            <!-- Profile Picture Upload -->
+            <div style="text-align:center; margin-bottom:1rem;">
+                <div id="profilePicPreview" style="width:100px; height:100px; border-radius:50%; margin:0 auto 1rem; background:#f0f0f0; display:flex; align-items:center; justify-content:center; font-size:3rem; overflow:hidden;">
+                    👤
+                </div>
+                <input type="file" id="profilePicUpload" accept="image/*" style="display:none;" onchange="previewProfilePicture(event)">
+                <button type="button" class="btn-profile" onclick="document.getElementById('profilePicUpload').click()" style="font-size:0.8rem;">Choose Photo</button>
+            </div>
+            
+            <input type="text" id="editName" placeholder="Full Name" required>
+            <input type="email" id="editEmail" placeholder="Email" required>
+            <input type="tel" id="editPhone" placeholder="Phone Number">
+            <input type="text" id="editLocation" placeholder="Location">
+            <button type="submit" class="modal-btn">Save Changes</button>
+        </form>
+    </div>
+</div>
+
+    <!-- Booking Modal -->
+    <div id="bookingModal" class="modal">
+        <div class="modal-container">
+            <span class="modal-close" onclick="closeModal('bookingModal')">&times;</span>
+            <h2>Book Monthly Package</h2>
+            <div id="bookingInfo"></div>
+            <select id="bookingDays" class="booking-select" onchange="updateBookingPrice()">
+                <option value="4">4 days/week</option>
+                <option value="5">5 days/week</option>
+                <option value="6">6 days/week</option>
+            </select>
+            <div id="priceBreakdown" class="price-breakdown"></div>
+            <button class="modal-btn" onclick="confirmBooking()">Confirm Booking</button>
+        </div>
     </div>
 
     <!-- Rating Modal -->
     <div id="ratingModal" class="modal">
-      <div class="modal-content">
-        <span class="close" onclick="closeModal('ratingModal')">&times;</span>
-        <h2 class="gold-text">Rate This Tutor</h2>
-        <div id="ratingTutorInfo" class="rating-tutor-info"></div>
-
-        <div class="star-rating">
-          <span onclick="setRating(1)">★</span>
-          <span onclick="setRating(2)">★</span>
-          <span onclick="setRating(3)">★</span>
-          <span onclick="setRating(4)">★</span>
-          <span onclick="setRating(5)">★</span>
+        <div class="modal-container">
+            <span class="modal-close" onclick="closeModal('ratingModal')">&times;</span>
+            <h2>Rate Your Experience</h2>
+            <div id="ratingInfo"></div>
+            <div class="stars-input">
+                <span onclick="setRating(1)">★</span>
+                <span onclick="setRating(2)">★</span>
+                <span onclick="setRating(3)">★</span>
+                <span onclick="setRating(4)">★</span>
+                <span onclick="setRating(5)">★</span>
+            </div>
+            <textarea id="ratingComment" placeholder="Share your experience..."></textarea>
+            <button class="modal-btn" onclick="submitRating()">Submit Review</button>
         </div>
-
-        <p id="ratingValue" class="rating-value">Select a rating</p>
-
-        <textarea
-          id="ratingComment"
-          placeholder="Write your review (optional)..."
-          rows="3"
-        ></textarea>
-
-        <button onclick="submitRating()" class="btn-gold btn-full">
-          Submit Rating
-        </button>
-      </div>
     </div>
 
-    <!-- Toast Notification -->
     <div id="toast" class="toast"></div>
 
-    <script src="js/tutors.js"></script>
-    <script src="js/auth.js"></script>
+    <script>
+        let tutors = [];
+        let users = [];
+        let currentUser = null;
+        let currentTutor = null;
+        let currentBookingTutor = null;
+        let selectedRating = 0;
+        let messages = [];
+        let bookings = [];
+    </script>
     <script src="js/main.js"></script>
-  </body>
+</body>
 </html>
