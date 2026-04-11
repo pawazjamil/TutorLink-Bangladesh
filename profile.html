@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile - TutorLink Bangladesh</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar luxury-nav">
+        <div class="logo">
+            <i class="fas fa-crown"></i>
+            <span>TutorLink <span class="gold-text">Bangladesh</span></span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="index.html#tutors">Find Tutors</a></li>
+            <li><a href="messages.html">Messages</a></li>
+            <li><a href="profile.html" class="active">Profile</a></li>
+        </ul>
+        <div class="auth-buttons" id="authButtons"></div>
+    </nav>
+
+    <section class="profile-section">
+        <div class="profile-container luxury-glass">
+            <div class="profile-header">
+                <div class="profile-avatar" id="profileAvatar">
+                    <i class="fas fa-user-circle"></i>
+                </div>
+                <h2 id="profileName">Loading...</h2>
+                <p id="profileEmail">Loading...</p>
+                <div class="profile-actions">
+                    <button class="btn-luxury-outline" onclick="toggleEditMode()">
+                        <i class="fas fa-edit"></i> Edit Profile
+                    </button>
+                    <button class="btn-luxury-outline" onclick="changeProfilePicture()">
+                        <i class="fas fa-camera"></i> Change Photo
+                    </button>
+                </div>
+            </div>
+
+            <div class="profile-info" id="profileView">
+                <div class="info-card">
+                    <h3><i class="fas fa-user"></i> Personal Information</h3>
+                    <div class="info-row">
+                        <span class="info-label">Full Name:</span>
+                        <span class="info-value" id="viewName">-</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Email Address:</span>
+                        <span class="info-value" id="viewEmail">-</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Phone Number:</span>
+                        <span class="info-value" id="viewPhone">Not added</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Location:</span>
+                        <span class="info-value" id="viewLocation">Not added</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Education:</span>
+                        <span class="info-value" id="viewEducation">Not added</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Member Since:</span>
+                        <span class="info-value" id="viewJoined">2026</span>
+                    </div>
+                </div>
+
+                <div class="info-card">
+                    <h3><i class="fas fa-chart-line"></i> Statistics</h3>
+                    <div class="info-row">
+                        <span class="info-label">Total Bookings:</span>
+                        <span class="info-value" id="viewBookings">0</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Messages Sent:</span>
+                        <span class="info-value" id="viewMessages">0</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Reviews Written:</span>
+                        <span class="info-value" id="viewReviews">0</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Account Type:</span>
+                        <span class="info-value" id="viewType">Student</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="profile-edit" id="profileEdit" style="display: none;">
+                <h3>Edit Your Profile</h3>
+                <form id="editProfileForm" onsubmit="event.preventDefault(); saveProfile()">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label><i class="fas fa-user"></i> Full Name</label>
+                            <input type="text" id="editName" required>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-envelope"></i> Email</label>
+                            <input type="email" id="editEmail" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label><i class="fas fa-phone"></i> Phone Number</label>
+                            <input type="tel" id="editPhone" placeholder="017xxxxxxxx">
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-map-marker-alt"></i> Location</label>
+                            <input type="text" id="editLocation" placeholder="Dhanmondi, Dhaka">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label><i class="fas fa-graduation-cap"></i> Education</label>
+                            <input type="text" id="editEducation" placeholder="B.Sc in Computer Science">
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-briefcase"></i> Occupation</label>
+                            <input type="text" id="editOccupation" placeholder="Student / Professional">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-lock"></i> New Password (optional)</label>
+                        <input type="password" id="editPassword" placeholder="Leave blank to keep current">
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn-luxury">Save Changes</button>
+                        <button type="button" class="btn-luxury-outline" onclick="toggleEditMode()">Cancel</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="bookings-history">
+                <h3><i class="fas fa-calendar-check"></i> My Bookings</h3>
+                <div id="bookingsList" class="bookings-list">
+                    <!-- Bookings will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="js/auth.js"></script>
+    <script src="js/tutors.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        function toggleEditMode() {
+            const viewDiv = document.getElementById('profileView');
+            const editDiv = document.getElementById('profileEdit');
+            const isEditing = editDiv.style.display === 'block';
+            
+            if (isEditing) {
+                viewDiv.style.display = 'block';
+                editDiv.style.display = 'none';
+                loadProfileData();
+            } else {
+                document.getElementById('editName').value = currentUser?.name || '';
+                document.getElementById('editEmail').value = currentUser?.email || '';
+                document.getElementById('editPhone').value = currentUser?.phone || '';
+                document.getElementById('editLocation').value = currentUser?.location || '';
+                document.getElementById('editEducation').value = currentUser?.education || '';
+                document.getElementById('editOccupation').value = currentUser?.occupation || '';
+                viewDiv.style.display = 'none';
+                editDiv.style.display = 'block';
+            }
+        }
+
+        function changeProfilePicture() {
+            const emojis = ['👨‍🎓', '👩‍🎓', '👨‍💻', '👩‍💻', '👨‍🏫', '👩‍🏫', '🎓', '📚', '✨', '⭐', '👑', '🌟'];
+            const randomEmoji = emojis[Math.floor(Math.random() * emojis.length)];
+            document.getElementById('profileAvatar').innerHTML = `<i class="fas fa-user-circle" style="font-size: 4rem; color: var(--gold);">${randomEmoji}</i>`;
+            showToast('Profile picture updated!', 'success');
+        }
+
+        function saveProfile() {
+            if (!currentUser) return;
+            
+            currentUser.name = document.getElementById('editName').value;
+            currentUser.email = document.getElementById('editEmail').value;
+            currentUser.phone = document.getElementById('editPhone').value;
+            currentUser.location = document.getElementById('editLocation').value;
+            currentUser.education = document.getElementById('editEducation').value;
+            currentUser.occupation = document.getElementById('editOccupation').value;
+            
+            if (document.getElementById('editPassword').value) {
+                currentUser.password = document.getElementById('editPassword').value;
+            }
+            
+            localStorage.setItem('currentUser', JSON.stringify(currentUser));
+            
+            let users = JSON.parse(localStorage.getItem('users')) || [];
+            const userIndex = users.findIndex(u => u.email === currentUser.email);
+            if (userIndex !== -1) {
+                users[userIndex] = currentUser;
+                localStorage.setItem('users', JSON.stringify(users));
+            }
+            
+            showToast('Profile updated successfully!', 'success');
+            toggleEditMode();
+            updateAuthUI();
+            loadProfileData();
+        }
+
+        function loadProfileData() {
+            if (!currentUser) {
+                window.location.href = 'index.html';
+                return;
+            }
+            
+            document.getElementById('profileName').textContent = currentUser.name;
+            document.getElementById('profileEmail').textContent = currentUser.email;
+            document.getElementById('viewName').textContent = currentUser.name;
+            document.getElementById('viewEmail').textContent = currentUser.email;
+            document.getElementById('viewPhone').textContent = currentUser.phone || 'Not added';
+            document.getElementById('viewLocation').textContent = currentUser.location || 'Not added';
+            document.getElementById('viewEducation').textContent = currentUser.education || 'Not added';
+            document.getElementById('viewType').textContent = currentUser.type === 'tutor' ? 'Tutor' : 'Student';
+            document.getElementById('viewJoined').textContent = currentUser.joined || '2026';
+            if (currentUser.occupation) {
+                document.getElementById('viewOccupation').textContent = currentUser.occupation;
+            }
+            
+            const bookings = JSON.parse(localStorage.getItem('bookings')) || [];
+            const myBookings = bookings.filter(b => b.studentName === currentUser.name);
+            document.getElementById('viewBookings').textContent = myBookings.length;
+            
+            const messages = JSON.parse(localStorage.getItem('messages')) || [];
+            const myMessages = messages.filter(m => m.from === currentUser.email || m.to === currentUser.email);
+            document.getElementById('viewMessages').textContent = myMessages.length;
+            
+            const reviews = JSON.parse(localStorage.getItem('userReviews')) || [];
+            const myReviews = reviews.filter(r => r.userEmail === currentUser.email);
+            document.getElementById('viewReviews').textContent = myReviews.length;
+            
+            const bookingsDiv = document.getElementById('bookingsList');
+            if (myBookings.length === 0) {
+                bookingsDiv.innerHTML = '<div class="no-data"><i class="fas fa-calendar"></i><p>No bookings yet. Start by finding a tutor!</p></div>';
+            } else {
+                bookingsDiv.innerHTML = myBookings.map(b => `
+                    <div class="booking-card">
+                        <div class="booking-info">
+                            <strong>${b.tutorName}</strong> - ${b.subject}
+                            <br><small>${b.daysPerWeek} days/week | ${b.preferredTime}</small>
+                        </div>
+                        <div class="booking-status">${b.status}</div>
+                        <div class="booking-fee">৳${b.monthlyFee}/month</div>
+                        <button class="btn-cancel" onclick="cancelBooking('${b.id}')">Cancel</button>
+                    </div>
+                `).join('');
+            }
+        }
+
+        function cancelBooking(bookingId) {
+            let bookings = JSON.parse(localStorage.getItem('bookings')) || [];
+            bookings = bookings.filter(b => b.id != bookingId);
+            localStorage.setItem('bookings', JSON.stringify(bookings));
+            showToast('Booking cancelled successfully', 'success');
+            loadProfileData();
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            if (!currentUser) {
+                window.location.href = 'index.html';
+                return;
+            }
+            updateAuthUI();
+            loadProfileData();
+        });
+    </script>
+</body>
+</html>
