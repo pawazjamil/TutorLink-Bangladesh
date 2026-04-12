@@ -401,3 +401,69 @@ body {
     font-size: 3rem;
     color: white;
 }
+/* Register Page Styles */
+.register-section {
+    padding: 8rem 5% 4rem;
+    min-height: 80vh;
+    background: linear-gradient(135deg, #faf8f5 0%, #f0ede8 100%);
+}
+
+.register-container {
+    max-width: 500px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 24px;
+    padding: 2.5rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+}
+
+.register-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.register-icon {
+    font-size: 3rem;
+    margin-bottom: 0.5rem;
+}
+
+.register-header h2 {
+    font-size: 1.8rem;
+    color: #1a1a1a;
+    margin-bottom: 0.5rem;
+}
+
+.register-header p {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.btn-register-submit {
+    width: 100%;
+    padding: 1rem;
+    background: #C6A43F;
+    border: none;
+    border-radius: 40px;
+    color: white;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.btn-register-submit:hover {
+    background: #a8882e;
+    transform: translateY(-2px);
+}
+
+.register-footer {
+    text-align: center;
+    margin-top: 1.5rem;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.register-footer a {
+    color: #C6A43F;
+    text-decoration: none;
+}
